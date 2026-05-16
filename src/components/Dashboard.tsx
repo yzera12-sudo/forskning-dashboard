@@ -127,30 +127,30 @@ export function Dashboard() {
   return (
     <div className="min-h-screen">
       <header className="border-b border-slate-200/80 bg-gradient-to-br from-brand via-brand-light to-[#3a7ca5] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <p className="text-sm font-medium uppercase tracking-widest text-white/70">
+        <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+          <p className="text-xs font-medium uppercase tracking-widest text-white/70 sm:text-sm">
             Research monitor
           </p>
-          <h1 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
             Child &amp; Adolescent Psychiatry
           </h1>
-          <p className="mt-3 max-w-2xl text-base text-white/85">
+          <p className="mt-3 max-w-2xl text-sm text-white/85 sm:text-base">
             Latest publications from specialist CAP journals plus flagship
             psychiatry sources, from PubMed (refreshed hourly).
           </p>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <section className="mb-10">
-          <h2 className="mb-4 font-display text-xl font-semibold text-slate-800">
+      <main className="mx-auto max-w-7xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <section className="mb-6 sm:mb-10">
+          <h2 className="mb-3 hidden font-display text-lg font-semibold text-slate-800 sm:mb-4 sm:block sm:text-xl">
             Journals tracked
           </h2>
           {!loading && !error && <JournalOverview counts={journalCounts} />}
         </section>
 
-        <section className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex max-w-md flex-1 flex-col gap-1">
+        <section className="mb-6 space-y-4">
+          <div className="flex flex-col gap-1">
             <label htmlFor="search" className="text-xs font-medium text-slate-500">
               Search
             </label>
@@ -160,10 +160,10 @@ export function Dashboard() {
               placeholder="Title or author…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-lg border border-slate-200 bg-white py-2.5 pl-4 pr-4 text-sm shadow-sm outline-none ring-brand/20 transition focus:border-brand-light focus:ring-2"
+              className="w-full rounded-lg border border-slate-200 bg-white py-3 pl-4 pr-4 text-base shadow-sm outline-none ring-brand/20 transition focus:border-brand-light focus:ring-2 sm:py-2.5 sm:text-sm"
             />
           </div>
-          <div className="flex flex-wrap items-end gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="subject"
@@ -175,7 +175,7 @@ export function Dashboard() {
                 id="subject"
                 value={subjectFilter}
                 onChange={(e) => setSubjectFilter(e.target.value)}
-                className="min-w-[11rem] rounded-lg border border-slate-200 bg-white py-2.5 pl-3 pr-8 text-sm shadow-sm outline-none ring-brand/20 focus:border-brand-light focus:ring-2"
+                className="w-full rounded-lg border border-slate-200 bg-white py-3 pl-3 pr-8 text-base shadow-sm outline-none ring-brand/20 focus:border-brand-light focus:ring-2 sm:py-2.5 sm:text-sm"
               >
                 <option value="all">All topics</option>
                 {SUBJECT_DEFINITIONS.map((s) => (
@@ -193,7 +193,7 @@ export function Dashboard() {
                 id="sort"
                 value={sortMode}
                 onChange={(e) => setSortMode(e.target.value as SortMode)}
-                className="min-w-[12rem] rounded-lg border border-slate-200 bg-white py-2.5 pl-3 pr-8 text-sm shadow-sm outline-none ring-brand/20 focus:border-brand-light focus:ring-2"
+                className="w-full rounded-lg border border-slate-200 bg-white py-3 pl-3 pr-8 text-base shadow-sm outline-none ring-brand/20 focus:border-brand-light focus:ring-2 sm:py-2.5 sm:text-sm"
               >
                 <option value="date">Newest first</option>
                 <option value="subject">Subject (A–Z), then date</option>
@@ -201,17 +201,18 @@ export function Dashboard() {
                 <option value="bookmarks_first">Bookmarks first</option>
               </select>
             </div>
-            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm">
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <label className="flex min-h-[48px] cursor-pointer items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 shadow-sm touch-manipulation">
               <input
                 type="checkbox"
                 checked={bookmarksOnly}
                 onChange={(e) => setBookmarksOnly(e.target.checked)}
-                className="rounded border-slate-300 text-brand focus:ring-brand"
+                className="size-4 rounded border-slate-300 text-brand focus:ring-brand"
               />
               Bookmarks only ({bookmarksCount})
             </label>
-          </div>
-          <div className="flex items-center gap-3 text-sm text-slate-500">
+            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
             {fetchedAt && (
               <span>
                 Updated{" "}
@@ -225,10 +226,11 @@ export function Dashboard() {
               type="button"
               onClick={loadPapers}
               disabled={loading}
-              className="rounded-lg border border-slate-200 bg-white px-4 py-2 font-medium text-brand shadow-sm transition hover:bg-brand-soft disabled:opacity-50"
+              className="min-h-[48px] flex-1 rounded-lg border border-slate-200 bg-white px-4 py-2.5 font-medium text-brand shadow-sm transition active:bg-brand-soft disabled:opacity-50 sm:min-h-0 sm:flex-none"
             >
               {loading ? "Loading…" : "Refresh"}
             </button>
+            </div>
           </div>
         </section>
 
@@ -284,7 +286,16 @@ export function Dashboard() {
 
 function LoadingTableSkeleton() {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-100 bg-white">
+    <>
+      <ul className="space-y-3 md:hidden" aria-hidden>
+        {Array.from({ length: 5 }).map((_, i) => (
+          <li
+            key={i}
+            className="h-36 animate-pulse rounded-xl border border-slate-100 bg-white"
+          />
+        ))}
+      </ul>
+      <div className="hidden overflow-x-auto rounded-xl border border-slate-100 bg-white md:block">
       <table className="w-full min-w-[860px]">
         <tbody>
           {Array.from({ length: 10 }).map((_, i) => (
@@ -315,6 +326,7 @@ function LoadingTableSkeleton() {
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 

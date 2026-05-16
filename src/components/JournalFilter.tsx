@@ -16,38 +16,47 @@ export function JournalFilter({
   const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="flex flex-wrap gap-2">
-      <FilterChip
-        active={selected === null}
-        label="All journals"
-        count={total}
-        onClick={() => onSelect(null)}
-      />
-      {JOURNALS.map((j) => (
+    <>
+      <p className="mb-2 text-xs text-slate-500 md:hidden">
+        Swipe sideways for more journals →
+      </p>
+      <section
+        aria-label="Filter by journal"
+        className="scrollbar-thin -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
+      >
         <FilterChip
-          key={j.id}
-          active={selected === j.id}
-          label={j.shortLabel}
-          title={j.name}
-          count={counts[j.id] ?? 0}
-          onClick={() => onSelect(selected === j.id ? null : j.id)}
+          active={selected === null}
+          label="All journals"
+          title="All journals"
+          count={total}
+          onClick={() => onSelect(null)}
         />
-      ))}
-    </div>
+        {JOURNALS.map((j) => (
+          <FilterChip
+            key={j.id}
+            active={selected === j.id}
+            label={j.shortLabel}
+            title={j.name}
+            count={counts[j.id] ?? 0}
+            onClick={() => onSelect(selected === j.id ? null : j.id)}
+          />
+        ))}
+      </section>
+    </>
   );
 }
 
 function FilterChip({
   active,
   label,
-  count,
   title,
+  count,
   onClick,
 }: {
   active: boolean;
   label: string;
+  title: string;
   count: number;
-  title?: string;
   onClick: () => void;
 }) {
   return (
@@ -55,10 +64,10 @@ function FilterChip({
       type="button"
       title={title}
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition ${
+      className={`inline-flex shrink-0 snap-start items-center gap-1.5 rounded-full border px-3.5 py-2.5 text-sm font-medium transition touch-manipulation md:py-1.5 ${
         active
           ? "border-brand bg-brand text-white shadow-sm"
-          : "border-slate-200 bg-white text-slate-700 hover:border-brand-light/40 hover:bg-brand-soft"
+          : "border-slate-200 bg-white text-slate-700 active:bg-brand-soft"
       }`}
     >
       {label}
